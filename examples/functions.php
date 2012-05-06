@@ -1,13 +1,7 @@
 <?php
 
-$dic = file_get_contents(__DIR__.'/xsites.txt');
+$dic = file_get_contents(__DIR__.'/sites.txt');
 $dic = explode(PHP_EOL, $dic);
-
-function xsites_log() {
-    print '--> ';
-    call_user_func_array('printf', func_get_args());
-    print PHP_EOL;
-}
 
 function xsites_get_dictionary() {
     global $dic;
@@ -32,19 +26,19 @@ function xsites_get_dictionary() {
 }
 
 function xsites_get_site($url) {
-    $cache = sys_get_temp_dir() . '/xsite-cache-'.trim($url);
+    $cache =  __DIR__.'/data/xsite-cache-'.trim($url);
     if (is_readable($cache)) {
         return file_get_contents($cache);
     } else {
-        xsites_log('Caching site "%s" to "%s"', $url, $cache);
-
+        printf("\nCaching site \"%s\" to \"%s\"", $url, $cache);
         $context = stream_context_create(array(
             'http' => array(
                 'timeout' => 1      // Timeout in seconds
             )
         ));
-        $contents = file_get_contents('http://'.$url, 0, $context);
         ini_set('default_socket_timeout', 1);
+        $contents = file_get_contents('http://'.$url, 0, $context);
+        // if(strlen($contents)>0) will be better
         file_put_contents($cache, $contents);
         return $contents;
     }
