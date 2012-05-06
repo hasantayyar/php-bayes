@@ -37,6 +37,7 @@ function xsites_get_site($url) {
             )
         ));
         ini_set('default_socket_timeout', 1);
+        // we should strip html
         $contents = file_get_contents('http://'.$url, 0, $context);
         // if(strlen($contents)>0) will be better
         file_put_contents($cache, $contents);

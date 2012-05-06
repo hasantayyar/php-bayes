@@ -34,7 +34,7 @@ printf("\nMatching common sites");
 foreach (array('dailyporno.tumblr.com','blogcu.com', 'youtube.com', 'google.com', 'wikipedia.com') as $site) {
     $contents = xsites_get_site($site);
     if ($contents == '' && strlen($contents) < 1000) {
-        //printf('Site not responsible, skipping');
+        printf('Site not responsible, skipping');
     } else {
         printf("\nMatching '%s'", $site);
         printf("\nProbability: %.6f".PHP_EOL, $bayes_dic->match($tokenizer->tokenize($contents)));
